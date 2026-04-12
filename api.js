@@ -57,9 +57,33 @@ async function createProduct(req, res) {
   res.json(req.body)
 }
 
+/**
+ * Update a product placeholder.
+ * @param {object} req
+ * @param {object} res
+ */
+async function updateProduct(req, res) {
+  const { id } = req.params
+  console.log(`Product ${id} was updated`)
+  res.status(200).json({ message: `Product ${id} was updated` })
+}
+
+/**
+ * Delete a product placeholder.
+ * @param {object} req
+ * @param {object} res
+ */
+async function deleteProduct(req, res) {
+  const { id } = req.params
+  console.log(`Product ${id} was deleted`)
+  res.status(202).json({ message: `Product ${id} was deleted` })
+}
+
 module.exports = autoCatch({
   handleRoot,
   listProducts,
   getProduct,
-  createProduct
+  createProduct,
+  updateProduct,
+  deleteProduct
 })
