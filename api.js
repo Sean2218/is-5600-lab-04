@@ -1,5 +1,6 @@
 const path = require('path')
 const Products = require('./products')
+const autoCatch = require('./lib/auto-catch')
 
 /**
  * Handle the root route
@@ -20,17 +21,13 @@ function handleRoot(req, res) {
 async function listProducts(req, res) {
   const { offset = 0, limit = 25, tag } = req.query
 
-  try {
-    res.json(
-      await Products.list({
-        offset: Number(offset),
-        limit: Number(limit),
-        tag
-      })
-    )
-  } catch (err) {
-    res.status(500).json({ error: err.message })
-  }
+  res.json(
+    await Products.list({
+      offset: Number(offset),
+      limit: Number(limit),
+      tag
+    })
+  )
 }
 
 /**
@@ -41,22 +38,28 @@ async function listProducts(req, res) {
  */
 async function getProduct(req, res, next) {
   const { id } = req.params
+  const product = await Products.get(id)
 
-  try {
-    const product = await Products.get(id)
-
-    if (!product) {
-      return next()
-    }
-
-    return res.json(product)
-  } catch (err) {
-    res.status(500).json({ error: err.message })
+  if (!product) {
+    return next()
   }
+
+  return res.json(product)
 }
 
-module.exports = {
+/**
+ * Create a new product placeholder.
+ * @param {object} req
+ * @param {object} res
+ */
+async function createProduct(req, res) {
+  console.log('request body:', req.body)
+  res.json(req.body)
+}
+
+module.exports = autoCatch({
   handleRoot,
   listProducts,
-  getProduct
-}
+  getProduct,
+  createProduct
+})
