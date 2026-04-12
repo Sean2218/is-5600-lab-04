@@ -17,8 +17,15 @@ function handleRoot(req, res) {
  * @param {object} res
  */
 async function listProducts(req, res) {
+  const { offset = 0, limit = 25 } = req.query
+
   try {
-    res.json(await Products.list())
+    res.json(
+      await Products.list({
+        offset: Number(offset),
+        limit: Number(limit)
+      })
+    )
   } catch (err) {
     res.status(500).json({ error: err.message })
   }
