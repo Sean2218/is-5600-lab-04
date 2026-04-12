@@ -32,8 +32,24 @@ async function listProducts(req, res) {
     res.status(500).json({ error: err.message })
   }
 }
+async function getProduct(req, res, next) {
+  const { id } = req.params
+
+  try {
+    const product = await Products.get(id)
+
+    if (!product) {
+      return next()
+    }
+
+    return res.json(product)
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+}
 
 module.exports = {
   handleRoot,
-  listProducts
+  listProducts,
+  getProduct
 }
