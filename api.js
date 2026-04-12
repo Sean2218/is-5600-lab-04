@@ -17,19 +17,21 @@ function handleRoot(req, res) {
  * @param {object} res
  */
 async function listProducts(req, res) {
-  const { offset = 0, limit = 25 } = req.query
+  const { offset = 0, limit = 25, tag } = req.query
 
   try {
     res.json(
       await Products.list({
         offset: Number(offset),
-        limit: Number(limit)
+        limit: Number(limit),
+        tag
       })
     )
   } catch (err) {
     res.status(500).json({ error: err.message })
   }
 }
+
 
 module.exports = {
   handleRoot,
