@@ -9,8 +9,8 @@ const app = express()
 app.use(express.static(__dirname + '/public'));
 // register the routes
 app.get('/products', api.listProducts)
-app.get('/products/:id', api.getProduct)
 app.get('/', api.handleRoot);
+app.get('/products/:id', api.getProduct)
 // Boot the server
 app.listen(port, () => console.log(`Server listening on port ${port}`))
 

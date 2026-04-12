@@ -15,18 +15,19 @@ function handleRoot(req, res) {
  * List all products
  * @param {object} req
  * @param {object} res
+ * @param {function} next
  */
-async function getProduct(req, res, next) {
-  const { id } = req.params
+async function listProducts(req, res) {
+  const { offset = 0, limit = 25, tag } = req.query
 
   try {
-    const product = await Products.get(id)
-
-    if (!product) {
-      return next()
-    }
-
-    return res.json(product)
+    res.json(
+      await Products.list({
+        offset: Number(offset),
+        limit: Number(limit),
+        tag
+      })
+    )
   } catch (err) {
     res.status(500).json({ error: err.message })
   }
@@ -34,6 +35,5 @@ async function getProduct(req, res, next) {
 
 module.exports = {
   handleRoot,
-  listProducts,
-  getProduct
+  listProducts
 }
