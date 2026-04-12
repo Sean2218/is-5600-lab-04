@@ -1,9 +1,9 @@
-const Products = require('./products')
-//const fs = require('fs').promises
 const path = require('path')
+const Products = require('./products')
 
 /**
  * Handle the root route
+ * and send the index.html file.
  * @param {object} req
  * @param {object} res
  */
@@ -12,10 +12,10 @@ function handleRoot(req, res) {
 }
 
 /**
- * List all products
+ * Get all products using limit, offset, and tag,
+ * then return them as JSON.
  * @param {object} req
  * @param {object} res
- * @param {function} next
  */
 async function listProducts(req, res) {
   const { offset = 0, limit = 25, tag } = req.query
@@ -32,6 +32,13 @@ async function listProducts(req, res) {
     res.status(500).json({ error: err.message })
   }
 }
+
+/**
+ * Get a single product by id.
+ * @param {object} req
+ * @param {object} res
+ * @param {function} next
+ */
 async function getProduct(req, res, next) {
   const { id } = req.params
 
