@@ -1,4 +1,5 @@
-const fs = require('fs').promises
+const Products = require('./products')
+//const fs = require('fs').promises
 const path = require('path')
 
 /**
@@ -16,11 +17,8 @@ function handleRoot(req, res) {
  * @param {object} res
  */
 async function listProducts(req, res) {
-  const productsFile = path.join(__dirname, 'data/full-products.json')
-
   try {
-    const data = await fs.readFile(productsFile)
-    res.json(JSON.parse(data))
+    res.json(await Products.list())
   } catch (err) {
     res.status(500).json({ error: err.message })
   }
