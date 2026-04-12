@@ -1,5 +1,4 @@
 const fs = require('fs').promises
-const { get } = require('express/lib/response')
 const path = require('path')
 
 const productsFile = path.join(__dirname, 'data/full-products.json')
